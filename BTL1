@@ -1,0 +1,141 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+class SinhVien{
+	public:
+		string maSV;
+		string ten;
+		int tuoi;
+		float diem;
+		
+		friend istream &operator >>(istream &is, SinhVien &sv){
+			cout <<"Nhap ma sv: " <<endl;
+			is >>sv.maSV;
+			cout <<"Nhap ten sinh vien: " <<endl;
+			is.ignore();
+			getline(is,sv.ten);
+			cout <<"Nhap tuoi: " <<endl;
+			is >>sv.tuoi;
+			cout <<"Nhap diem: "<<endl;
+			is >>sv.diem;
+			
+			return is;
+		}
+		
+		friend ostream &operator <<(ostream &os, const SinhVien &sv){
+			os <<"Ma sv: " <<sv.maSV <<",Ten: "<<sv.ten <<", Tuoi: "<<sv.tuoi <<",Diem: "<<sv.diem;
+			
+			return os;
+		}
+		//Ham so sanh diem 
+		bool operator < (const SinhVien &other) 
+		const {
+    		return diem < other.diem;
+		}
+	
+};
+
+template <class T>
+
+class DanhSachSV{
+	private:
+		T danhsach;
+		
+	public:
+		void themSV(const SinhVien &sv){
+			danhsach.push_back(sv);
+		}
+		void xoaSV(const string &maSV){
+			for(auto it = danhsach.begin(); it != danhsach.end(); ++it){
+				if(it->maSV == maSV){
+					danhsach.erase(it);
+					cout <<"Da xoa sinh vien co ma:" <<maSV <<endl; // xoa sinh vien co ma sinh vien trung voi gia tri vua nhap
+					return;
+				}
+				
+			}
+			cout <<"Khong tim thay sinh vien co ma: " <<maSV << endl;
+		}
+		void indanhsach() const{
+			if(danhsach.empty()){
+				cout <<"Danh sach sinh vien rong!" <<endl;
+				return;
+			}
+			for(const auto &sv : danhsach){
+				cout << sv <<endl;
+			}
+		}
+		void sapxep(){
+			danhsach.sort();
+		}
+		SinhVien timMax() const{
+			return *max_element(danhsach.begin(), danhsach.end());
+		}
+		SinhVien timMin() const{
+			return *min_element(danhsach.begin(), danhsach.end());
+		}
+		
+};
+
+class App{
+	public:
+		void menu(){
+			DanhSachSV<list<SinhVien>> danhsach;
+			int luachon;
+			do {
+				
+				cout <<"\n---------MENU--------" <<endl;
+				cout <<"1.Them sinh vien" <<endl;
+				cout <<"2.Xoa sinh vien" <<endl;
+				cout <<"3.In danh sach sinh vien" <<endl;
+				cout <<"4.Sap xep danh sach" <<endl;
+				cout <<"5.Tim diem cao nhat" <<endl;
+				cout <<"6.Tim diem thap nhat" <<endl;
+				cout <<"0.Thoat" <<endl;
+				
+				cout <<"Nhap lua chon: ";
+				cin >>luachon;
+				
+				switch (luachon) {
+                case 1: {
+                    SinhVien sv;
+                    cin >> sv;
+                    danhsach.themSV(sv);
+                    break;
+                }
+                case 2: {
+                    string maSV;
+                    cout << "Nhap ma sinh vien can xoa: ";
+                    cin >> maSV;
+                    danhsach.xoaSV(maSV);
+                    break;
+                }
+                case 3:
+                    danhsach.indanhsach();
+                    break;
+                case 4:
+                    danhsach.sapxep();
+                    cout << "Danh sach da duoc sap xep.\n";
+                    break;
+                case 5:
+                    cout << "Sinh vien co diem cao nhat: " << danhsach.timMax() << endl;
+                    break;
+                case 6:
+                    cout << "Sinh vien co diem thap nhat: " << danhsach.timMin() << endl;
+                    break;
+                case 0:
+                    cout << "Thoat chuong trinh.\n";
+                    break;
+                default:
+                    cout << "Lua chon khong hop le, xin vui long thu lai.\n";
+            }
+        } while (luachon != 0);
+    }
+};
+
+int main(){
+	App app;
+	app.menu();
+	return 0;
+}
