@@ -1,0 +1,154 @@
+#include <bits/stdc++.h>
+#ifndef QUEUE
+#define QUEUE
+using namespace std;
+template <class T>
+class Queue{
+private:
+    //dung list luu cac phan tu hang doi
+    list<T> q;
+
+public:
+    // Them phan tu vao hang doi
+    void enqueue(const T& value){
+        q.push_back(value);
+    }
+
+    // xoa phan tu dau hang doi
+    void dequeue(){
+        if (!q.empty()){
+            q.pop_front();
+        }else{
+            cout << "Hang doi rong" << endl;
+        }
+    }
+
+    // Lay phan tu dau giu nguyen hang doi
+    T front()const{
+        if (!q.empty()){
+            return q.front();
+        }else{
+            cout << "Hang doi rong!" << endl;
+            return T();
+        }
+    }
+
+    // kiem tra hang doi co rong khong
+    bool isEmpty()const{
+        return q.empty();
+    }
+
+    // Kich thuoc hang doi
+    int size()const{
+        return q.size();
+    }
+
+    // PhÆ°Æ¡ng thá»©c in cÃ¡c pháº§n tá»­ trong hÃ ng Ä‘á»£i
+    void printQueue()const{
+        if(q.empty()){
+            cout << "Hang doi rong!" << endl;
+        }else{
+            cout << "Cac phan tu trong hang doi: ";
+            for(const T& phantu : q){
+                cout << phantu << " ";
+            }
+            cout << endl;
+        }
+    }
+};
+//Bai1:Nhap vÃ o khach hang can phuc vu sau do in ra nhung khach hang dang duoc phuc vu 
+void nganhangQueue(){			//khai bao ham
+    Queue<string>KhachhangQueue; 			//tao doi tuong de luu
+    string Tenkhachhang;			//khai bao bien de nhap ten khach hang
+
+    cout << "Nhap ten khach hang (nhap (xong) khi khong con khach can phuc vu): " << endl;
+
+    while(true){ 			//dung vong lap de nhap ten khach hang
+        cout << "Nhap ten khach hang: ";
+        getline(cin, Tenkhachhang); 
+        if (Tenkhachhang == "xong"){			//neu nhap xong thi dung lai viec nhap ten khach hang
+            break;
+        }
+        KhachhangQueue.enqueue(Tenkhachhang);			//them khach hang vua nhap
+        cout << "Da them " << Tenkhachhang << " vao hang doi" << endl;			//thong bao da them khach hang vua nhap
+    }
+
+    cout << "\nDanh sach khach hang da duoc phuc vu:" << endl;
+
+    // in ten va hoan thanh phuc vu 
+    while(!KhachhangQueue.isEmpty()){			//kiem tra hang doi khong rong thi tiep tuc xu ly
+        cout << KhachhangQueue.front() << " da duoc phuc vu" << endl;			//lay ten khach hang va in ra khach hang do da duoc phuc vu
+        KhachhangQueue.dequeue();			//xoa ten khach hang da duoc phuc vu 
+        this_thread::sleep_for(chrono::milliseconds(500));			//hoan thoi gian in ra 0.5s
+    }
+    cout << "Tat ca khach hang da duoc phuc vu" << endl;
+}
+//Bai 2:Nhap ten tai lieu muon in sau do nhap so luong muon in tai lieu do va thong bao ra man hinh
+void intailieu(){			//khai bao ham
+    Queue<string> tailieuQueue;			//tao doi tuong de luu
+    string tentailieu;			//khai bao bien de nhap ten tai lieu
+
+    cout << "\nNhap ten tai lieu (nhap (xong) khi da chon xong tai lieu muon in):" << endl;
+
+    while(true){			//dung vong lap de nhap ten tai lieu muon in
+        cout << "Nhap ten tai lieu: ";
+        getline(cin, tentailieu);
+        if(tentailieu == "xong"){			//neu nhap xong thi dung lai viec nhap ten tai lieu
+            break;
+        }
+        tailieuQueue.enqueue(tentailieu);			//them tai lieu vua nhap
+        cout << "Da them tai lieu '" << tentailieu << "' vao hang doi" << endl;			//thong bao tai lieu da duoc them vao hang doi
+    }
+
+    while(!tailieuQueue.isEmpty()){				//kiem tra hang doi khong rong thi tiep tuc xu ly
+        cout << "Dang in tai lieu: " << tailieuQueue.front() << endl;			//thong bao ten tai lieu duoc in
+        string tentailieu1 = tailieuQueue.front();				//luu ten tai lieu dang in vao bien tentailieu1
+        tailieuQueue.dequeue();				//xoa ten tai lieu da in khoi hang doi
+//nhap so trang muon in cua tai lieu
+        int sotrang;
+        cout << "Nhap so trang muon in cua tai lieu " << tentailieu1 << ": ";
+        cin >> sotrang;
+        cin.ignore();			//xoa ky tu de tranh loi
+//chay lan luot da in duoc bao trang
+        for(int i = 1; i <= sotrang; ++i){
+            cout << "Da in " << i << " trang cua tai lieu " << tentailieu1 << endl;
+            this_thread::sleep_for(chrono::milliseconds(500));			//hoan thoi gian in ra 0,5s
+        }
+        cout << "Da hoan thanh in tai lieu " << tentailieu1 << endl;			//thong bao da in xong tai lieu
+    }
+
+    cout << "Tat ca tai lieu da duoc in xong" << endl;
+}
+//Bai 3:Nhap vao bien so xe cac xe dang do vao bai sau do in ra vi tri do cua cac xe
+void bdx(){				//khai bao ham
+    Queue<string> baidoxeQueue;			//tao doi tuong de luu
+    string biensoxe;			//khai bao bien de nhap ten tai lieu
+
+    cout << "\nNhap bien so xe vao bai (nhap (xong) de ket thuc):" << endl;
+
+    while(true){			//dung vong lap de nhap bien so se vao bai do xe
+        cout << "Nhap bien so xe: ";
+        getline(cin, biensoxe);
+        if(biensoxe == "xong"){			//neu nhap xong dung viec nhap bien so xe
+            break;
+        }
+        baidoxeQueue.enqueue(biensoxe);				//them ten bien so xe vua nhap
+        cout << "Xe " << biensoxe << " dang do xe vao bai" << endl;
+    }
+//in ra vi tri cac xe duoc do
+    cout << "\nVi tri cac xe trong bai do:" << endl;
+    int vt = 1;			//nhap bien vt = 1 de khai bao vi tri bat dau tu 1
+    while(!baidoxeQueue.isEmpty()){				//kiem tra ham khong rong thi tiep tuc xu ly
+        cout << "Vi tri do " << vt++ << ": " << baidoxeQueue.front() << endl;			//in ra vi tri thu vt + 1 cua cac xe da duoc nhap vao
+        baidoxeQueue.dequeue();				//xoa ten xe da duoc in
+        this_thread::sleep_for(chrono::milliseconds(500));			//hoan thoi gian in ra 0.5s
+    }
+}
+//goi lan luot tung bai va in ra
+int main(){
+    nganhangQueue();
+    intailieu();
+    bdx();
+    return 0;
+}
+#endif 
